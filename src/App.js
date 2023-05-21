@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
+  let firstLoad = true
   const [data, setData] = useState();
   const [displayData, setDisplayData] = useState();
   const [name, setName] = useState('');
   const [designation, setDesignation] = useState('All');
+  const [selectedSkills, setSelectedSkills] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -24,7 +26,7 @@ function App() {
     setDisplayData({ employees: searchResults });
   };
 
-  const handleSelectChange = (e) => {
+  const handleDesignation = (e) => {
     const selectedDesignation = e.target.value;
     setDesignation(selectedDesignation);
 
@@ -37,6 +39,33 @@ function App() {
       setDisplayData({ employees: searchResults });
     }
   };
+
+  const handleSkillChange = (e, skill) => {
+    const isChecked = e.target.checked;
+
+    setSelectedSkills(prevSkills => {
+      if (isChecked) {
+        return [...prevSkills, skill];
+      } else {
+        return prevSkills.filter(prevSkill => prevSkill !== skill);
+      }
+    });
+
+    setSkill()
+  };
+
+  const setSkill = () => {
+    console.log(selectedSkills)
+    const searchResults = data.employees.filter(employee => {
+      const employeeSkills = employee.skills.map(skill => skill.toLowerCase());
+      const allIncluded = employeeSkills.every(element => selectedSkills.includes(element.toLowerCase()));
+      console.log(allIncluded)
+      return allIncluded
+    });
+    console.log(searchResults)
+
+    setDisplayData({ employees: searchResults });
+  }
 
   const cancelOperation = () => {
     setDisplayData(data);
@@ -57,7 +86,7 @@ function App() {
         <select
           id="searchDesignation"
           value={designation}
-          onChange={handleSelectChange}
+          onChange={handleDesignation}
         >
           <option value="All">All Designations</option>
           {data &&
@@ -66,6 +95,25 @@ function App() {
               <option key={index} value={designation}>{designation}</option>
             ))}
         </select>
+        <div>
+          <label>Skills:</label>
+          <input
+            type="checkbox"
+            value="Python"
+            checked={selectedSkills.includes("Python")}
+            onChange={(e) => handleSkillChange(e, "Python")}
+          />
+          <span>Python</span>
+          <input
+            type="checkbox"
+            value="SQL"
+            checked={selectedSkills.includes("SQL")}
+            onChange={(e) => handleSkillChange(e, "SQL")}
+          />
+          <span>SQL</span>
+          {/* Add more checkboxes for other skills */}
+        </div>
+
         <button onClick={cancelOperation}>Cancel</button>
       </div>
 
