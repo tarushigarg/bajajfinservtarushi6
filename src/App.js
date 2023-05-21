@@ -111,6 +111,27 @@ function App() {
             onChange={(e) => handleSkillChange(e, "SQL")}
           />
           <span>SQL</span>
+          <input
+            type="checkbox"
+            value="Javascript"
+            checked={selectedSkills.includes("javascript")}
+            onChange={(e) => handleSkillChange(e, "javascript")}
+          />
+          <span>Javascript</span>
+          <input
+            type="checkbox"
+            value="Manual Testing"
+            checked={selectedSkills.includes("Manual Testing")}
+            onChange={(e) => handleSkillChange(e, "Manual Testing")}
+          />
+          <span>Photoshop</span>
+          <input
+            type="checkbox"
+            value="Photoshop"
+            checked={selectedSkills.includes("javascript")}
+            onChange={(e) => handleSkillChange(e, "javascript")}
+          />
+          
           {/* Add more checkboxes for other skills */}
         </div>
 
