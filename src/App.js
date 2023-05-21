@@ -19,8 +19,14 @@ function App() {
     getData();
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      setSkill()
+    }
+  }, [selectedSkills])
+
   const searchUser = () => {
-    const searchResults = data.employees.filter(
+    const searchResults = displayData.employees.filter(
       employee => employee.name && employee.name.toLowerCase().includes(name.toLowerCase())
     );
     setDisplayData({ employees: searchResults });
@@ -50,19 +56,14 @@ function App() {
         return prevSkills.filter(prevSkill => prevSkill !== skill);
       }
     });
-
-    setSkill()
   };
 
   const setSkill = () => {
-    console.log(selectedSkills)
     const searchResults = data.employees.filter(employee => {
       const employeeSkills = employee.skills.map(skill => skill.toLowerCase());
-      const allIncluded = employeeSkills.every(element => selectedSkills.includes(element.toLowerCase()));
-      console.log(allIncluded)
+      const allIncluded = selectedSkills.every(element => employeeSkills.includes(element.toLowerCase()));
       return allIncluded
     });
-    console.log(searchResults)
 
     setDisplayData({ employees: searchResults });
   }
@@ -113,26 +114,46 @@ function App() {
           <span>SQL</span>
           <input
             type="checkbox"
-            value="Javascript"
-            checked={selectedSkills.includes("javascript")}
-            onChange={(e) => handleSkillChange(e, "javascript")}
+            value="JavaScript"
+            checked={selectedSkills.includes("JavaScript")}
+            onChange={(e) => handleSkillChange(e, "JavaScript")}
           />
-          <span>Javascript</span>
+          <span>JavaScript</span>
+          <input
+            type="checkbox"
+            value="Java"
+            checked={selectedSkills.includes("Java")}
+            onChange={(e) => handleSkillChange(e, "Java")}
+          />
+          <span>Java</span>
+          <input
+            type="checkbox"
+            value="HTML"
+            checked={selectedSkills.includes("HTML")}
+            onChange={(e) => handleSkillChange(e, "HTML")}
+          />
+          <span>HTML</span>
+          <input
+            type="checkbox"
+            value="CSS"
+            checked={selectedSkills.includes("CSS")}
+            onChange={(e) => handleSkillChange(e, "CSS")}
+          />
+          <span>CSS</span>
+          <input
+            type="checkbox"
+            value="Photoshop"
+            checked={selectedSkills.includes("Photoshop")}
+            onChange={(e) => handleSkillChange(e, "Photoshop")}
+          />
+          <span>Photoshop</span>
           <input
             type="checkbox"
             value="Manual Testing"
             checked={selectedSkills.includes("Manual Testing")}
             onChange={(e) => handleSkillChange(e, "Manual Testing")}
           />
-          <span>Photoshop</span>
-          <input
-            type="checkbox"
-            value="Photoshop"
-            checked={selectedSkills.includes("javascript")}
-            onChange={(e) => handleSkillChange(e, "javascript")}
-          />
-          
-          {/* Add more checkboxes for other skills */}
+          <span>Manual Testing</span>
         </div>
 
         <button onClick={cancelOperation}>Cancel</button>
